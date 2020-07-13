@@ -1,0 +1,25 @@
+{{- if .Values.ingress.enabled -}}
+{{- $fullName := include "daprapi.fullname" . -}}
+apiVersion:  networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ $fullName }}
+  labels:
+      version: "{{ .Values.AppVersion }}"
+spec:
+  {{- with .Values.ingress.hosts }}
+  hosts:
+    {{ toYaml . | indent 4 }}
+  {{- end }}
+  gateways:
+    - {{ template "daprapi.fullname" . }}
+  http:    
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            port:
+              number: 80
+            host: {{ $fullName }}
+{{- end }}

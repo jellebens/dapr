@@ -1,0 +1,21 @@
+# Default values for operationactors.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+fullnameOverride: operationactors
+replicaCount: 1
+
+image:
+  repository: dapr/actors
+  name: pdslibrary
+  pullPolicy: IfNotPresent
+
+dapr:
+  port: 3000
+  enabled: true
+  statestore:
+    redis:
+      host: "redis-master.redis.svc.cluster.local:6379"
+
+secrets:
+  redis:
+    passphrase: 'set in script'

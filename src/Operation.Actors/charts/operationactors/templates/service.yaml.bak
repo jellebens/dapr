@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "operationactors.fullname" . }}
+  labels:
+    app: {{ template "operationactors.name" . }}
+    chart: {{ template "operationactors.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: "ClusterIP"
+  ports:
+    - port: {{ .Values.dapr.port }}
+      targetPort: 3000
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ template "operationactors.name" . }}
+    release: {{ .Release.Name }}
